@@ -6,6 +6,11 @@
 	<PackAsTool>true</PackAsTool>
 	<ToolCommandName>Impacker</ToolCommandName>
 	<PackageOutputPath>../NuGet-Build/</PackageOutputPath>
+	<!-- Information -->
+	<Copyright>Copyright (c) 2021 SandNoodle | MIT License</Copyright>
+	<Company>SandNoodle</Company>
+	<Version>0.1.0</Version>
+	<AssemblyTitle>Impacker</AssemblyTitle>
   </PropertyGroup>
 
   <ItemGroup>
