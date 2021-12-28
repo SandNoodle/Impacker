@@ -115,7 +115,7 @@ Impacker --help
 To generate `TGA` textures of sizes: `128, 64, 48, 32` from all the textures inside current input directory type:
 
 ```sh
-	Impacker -s 128 64 48 32 -t TGA
+Impacker -s 128 64 48 32 -t TGA
 ```
 
 Generated textures will be located inside `/out` directory.
