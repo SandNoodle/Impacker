@@ -6,7 +6,7 @@ using Impacker.Core;
 
 using SixLabors.ImageSharp;
 
-namespace ImpackerTest
+namespace ImpackerTest.Core
 {
 	public class ImageCreatorTests : IDisposable
 	{
@@ -26,7 +26,7 @@ namespace ImpackerTest
 		}
 
 		[Fact]
-		public void Should_Create_Image_Of_Incorrect_Size()
+		public void CreateImage_Should_Create_Image_Of_Incorrect_Size()
 		{
 			var inputImage = Image.Load(_testImagePath);
 			var createdImage = _imageCreator.CreateImage(inputImage, 48, "nearest");
@@ -38,7 +38,7 @@ namespace ImpackerTest
 		}
 
 		[Fact]
-		public void Should_Create_Image_Of_Correct_Size()
+		public void CreateImage_Should_Create_Image_Of_Correct_Size()
 		{
 			var inputImage = Image.Load(_testImagePath);
 			var createdImage = _imageCreator.CreateImage(inputImage, 48, "nearest");
@@ -51,7 +51,7 @@ namespace ImpackerTest
 
 
 		[Fact]
-		public void Should_Create_Incorrect_Amount_Of_Images()
+		public void CreateImages_Should_Create_Incorrect_Amount_Of_Images()
 		{
 			var imageSizes = new int[] { 1, 1, 1, 1, 1, 1 };
 			var inputImage = ImageReader.Load(_testImagePath);
@@ -64,7 +64,7 @@ namespace ImpackerTest
 		}
 
 		[Fact]
-		public void Should_Create_Correct_Amount_Of_Images()
+		public void CreateImages_Should_Create_Correct_Amount_Of_Images()
 		{
 			var imageSizes = new int[] { 1, 1, 1, 1, 1, 1 };
 
@@ -78,7 +78,7 @@ namespace ImpackerTest
 		}
 
 		[Fact]
-		public void Should_Create_Images_Of_Incorrect_Sizes()
+		public void CreateImages_Should_Create_Images_Of_Incorrect_Sizes()
 		{
 			var imageSizes = new int[] { 128, 64, 48, 32, 16 };
 			var inputImage = ImageReader.Load(_testImagePath);
@@ -91,7 +91,7 @@ namespace ImpackerTest
 		}
 
 		[Fact]
-		public void Should_Create_Images_Of_Correct_Sizes()
+		public void CreateImages_Should_Create_Images_Of_Correct_Sizes()
 		{
 			var imageSizes = new int[] { 128, 64, 48, 32, 16 };
 			var inputImage = ImageReader.Load(_testImagePath);

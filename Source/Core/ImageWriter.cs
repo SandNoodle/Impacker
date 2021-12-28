@@ -29,6 +29,10 @@ namespace Impacker.Core
 
 		public static void Save(List<ImageData> outputImages, CommandLineOptions options)
 		{
+			if(outputImages == null) { throw new ArgumentNullException(); }
+			if(options == null) { throw new ArgumentNullException(); }
+			if(outputImages.Count == 0) { throw new ArgumentException("Provided ImageData List cannot be empty!"); }
+
 			var baseOutputDirectory = options.OutputDirectory;
 			var fileType = options.FileType;
 			var encoder = GetEncoder(fileType);
