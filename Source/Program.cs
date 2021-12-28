@@ -16,12 +16,8 @@ namespace Impacker
 			if(parseResult.Tag == ParserResultType.Parsed)
 			{
 				var commandLineOptions = ((Parsed<CommandLineOptions>)parseResult).Value;
-				Core.Impacker impacker = new Core.Impacker(commandLineOptions);
-				impacker.ProcessFiles();
-			}
-			else
-			{
-				Console.WriteLine("Couldn't parse command line arguments.");
+				ImageProcessor imageProcessor = new ImageProcessor(commandLineOptions);
+				imageProcessor.Process();
 			}
 
 		}

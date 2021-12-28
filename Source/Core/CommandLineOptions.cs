@@ -18,7 +18,7 @@ public class CommandLineOptions
 	[Option('t', "type", Required = false, Default="png", HelpText="Output file type. Possible values: [PNG], TGA, JPG, BMP")]
 	public string FileType { get; set; }
 
-	[Option('f', "filter", Required = false, HelpText = "Resizing filtering alghoritm. Possible values: [NEAREST], Bicubic.")]
+	[Option('f', "filter", Required = false, Default = "nearest", HelpText = "Resizing filtering alghoritm. Possible values: [NEAREST], BILINEAR, BICUBIC.")]
 	public string FilterType { get; set; }
 
 }

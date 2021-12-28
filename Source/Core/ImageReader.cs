@@ -12,7 +12,10 @@ namespace Impacker.Core
 
 		public static ImageData Load(string file)
 		{
-			return new ImageData(Path.GetFileNameWithoutExtension(file), Image.Load(file));
+			return new ImageData { 
+				Name = Path.GetFileNameWithoutExtension(file), 
+				Image = Image.Load(file)
+			};
 		}
 
 		public static List<ImageData> LoadImages(string path)

@@ -1,39 +1,56 @@
 using System;
+using System.IO;
 using System.Linq;
-using System.Collections.Generic;
 
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
+using System.Collections.Generic;
 
 namespace Impacker.Core
 {
 	public class ImageProcessor
 	{
-		public static List<ImageData> CreateImages(ImageData inputImage, IEnumerable<Int32> imageSizes)
-		{
-			var outputList = new List<ImageData>();
-			imageSizes.ToList()
-					.ForEach(size => outputList
-					.Add(
-					new ImageData(
-						inputImage.Name,
-						Create(inputImage.Image, new ImageSettings(size, size)
-					))));
 
-			return outputList;
+		private CommandLineOptions _commandLineOptions;
+
+		public ImageProcessor(CommandLineOptions commandLineOptions) => _commandLineOptions = commandLineOptions;
+
+		public void Process()
+		{
+			// Create output direcotry
+			var outputDirectory = _commandLineOptions.OutputDirectory;
+			var imageSizes = _commandLineOptions.ImageSizes.ToArray();
+			CreateOutputDirectories(outputDirectory, imageSizes);
+
+			// Load input files (no recursion)
+			var inputDirectory = _commandLineOptions.InputDirectory;
+			var inputImageList = LoadImages(inputDirectory);
+
+			// Create ouput images
+			var filterType = _commandLineOptions.FilterType;
+			ImageCreator imageCreator = new ImageCreator();
+			for (int i = 0; i < inputImageList.Count; i++)
+			{
+				var imageData = inputImageList[i];
+				var outputImageList = imageCreator.CreateImages(imageData, filterType, imageSizes);
+
+				ImageWriter.Save(outputImageList, _commandLineOptions);
+			}
 		}
 
-		public static Image Create(Image inputImage, ImageSettings settings)
+		private void CreateOutputDirectories(string baseOutputDirectory, IEnumerable<Int32> imageSizes)
 		{
-			// TODO: Ability to select resampler
-			return inputImage.Clone(i => i.Resize(settings.Width, settings.Height, KnownResamplers.NearestNeighbor));
+			imageSizes.ToList().ForEach(size => Directory
+							.CreateDirectory(Path
+							.Combine(baseOutputDirectory, size.ToString())));
 		}
 
-		public static void DisposeImages(ref List<ImageData> imageDataList)
+		private string CreateOutputImageName(string baseImageName, int imageSize)
 		{
-			imageDataList.ForEach(data => data.Image.Dispose());
-			imageDataList.Clear();
+			return $"T_{baseImageName}_{imageSize}px";
 		}
 
+		private List<ImageData> LoadImages(string inputDirectory)
+		{
+			return ImageReader.LoadImages(inputDirectory);
+		}
 	}
 }

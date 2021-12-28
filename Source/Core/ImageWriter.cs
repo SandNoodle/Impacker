@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
@@ -15,13 +16,16 @@ namespace Impacker.Core
 	public class ImageWriter
 	{
 
-		private static Dictionary<string, IImageEncoder> availableEncoders = new Dictionary<string, IImageEncoder>()
-		{
-			{ "png", new PngEncoder() },
-			{ "jpg", new JpegEncoder() },
-			{ "tga", new TgaEncoder() },
-			{ "bmp", new BmpEncoder() },
-		};
+		private static ReadOnlyDictionary<string, IImageEncoder> _availableEncoders = new ReadOnlyDictionary<string, IImageEncoder>
+		(
+			new Dictionary<string, IImageEncoder>()
+			{
+				{ "png", new PngEncoder() },
+				{ "jpg", new JpegEncoder() },
+				{ "tga", new TgaEncoder() },
+				{ "bmp", new BmpEncoder() },
+			}
+		);
 
 		public static void Save(List<ImageData> outputImages, CommandLineOptions options)
 		{
@@ -31,9 +35,9 @@ namespace Impacker.Core
 
 			for(int i = 0; i < outputImages.Count; i++)
 			{
-				var currentSize = outputImages[i].Image.Width;
 				var currentImage = outputImages[i];
-				var baseName = outputImages[i].Name;
+				var currentSize = currentImage.Image.Width;
+				var baseName = currentImage.Name;
 				var outputName = ConstructImageName(baseName, fileType, currentSize);
 				var outputDirectory = ConstructOutputDirectory(baseOutputDirectory, currentSize);
 				var savePath = Path.Combine(outputDirectory, outputName);
@@ -55,7 +59,7 @@ namespace Impacker.Core
 		private static IImageEncoder GetEncoder(string encoderType)
 		{
 			IImageEncoder encoder;
-			if(availableEncoders.TryGetValue(encoderType.ToLowerInvariant(), out encoder))
+			if(_availableEncoders.TryGetValue(encoderType.ToLowerInvariant(), out encoder))
 			{
 				return encoder;
 			}
