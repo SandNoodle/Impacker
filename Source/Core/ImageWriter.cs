@@ -29,16 +29,16 @@ namespace Impacker.Core
 
 		public static void Save(List<ImageData> outputImages, CommandLineOptions options)
 		{
-			if(outputImages == null) { throw new ArgumentNullException(); }
-			if(options == null) { throw new ArgumentNullException(); }
-			if(outputImages.Count == 0) { throw new ArgumentException("Provided ImageData List cannot be empty!"); }
+			if (outputImages == null) { throw new ArgumentNullException(); }
+			if (options == null) { throw new ArgumentNullException(); }
+			if (outputImages.Count == 0) { throw new ArgumentException("Provided ImageData List cannot be empty!"); }
 
 			var isHorizontalAxis = options.ScaleAxis == ScaleAxis.Width;
 			var baseOutputDirectory = options.OutputDirectory;
 			var fileType = options.FileType;
 			var encoder = GetEncoder(fileType);
 
-			for(int i = 0; i < outputImages.Count; i++)
+			for (int i = 0; i < outputImages.Count; i++)
 			{
 				var currentImage = outputImages[i];
 				var currentSize = isHorizontalAxis ? currentImage.Image.Width : currentImage.Image.Height;
@@ -64,7 +64,7 @@ namespace Impacker.Core
 		private static IImageEncoder GetEncoder(string encoderType)
 		{
 			IImageEncoder encoder;
-			if(_availableEncoders.TryGetValue(encoderType.ToLowerInvariant(), out encoder))
+			if (_availableEncoders.TryGetValue(encoderType.ToLowerInvariant(), out encoder))
 			{
 				return encoder;
 			}

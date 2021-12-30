@@ -50,7 +50,7 @@ namespace Impacker.Core
 						Name = imageData.Name,
 						Image = CreateImage(imageData.Image, outputSize)
 					}));
-			
+
 			return outputList;
 		}
 
@@ -58,7 +58,7 @@ namespace Impacker.Core
 		{
 			var isHorizontalAxis = _commandLineOptions.ScaleAxis == ScaleAxis.Width;
 			var resampler = GetResampler(_commandLineOptions.FilterType);
-			var aspectRatio = isHorizontalAxis ? (inputImage.Height / inputImage.Width) : (inputImage.Width / inputImage.Height); 
+			var aspectRatio = isHorizontalAxis ? (inputImage.Height / inputImage.Width) : (inputImage.Width / inputImage.Height);
 			var aspectCorrectedSize = GetAspectRatioCorrectedValue(size, aspectRatio);
 			return inputImage.Clone(i => i
 							.Resize(isHorizontalAxis ? size : aspectCorrectedSize,
@@ -79,7 +79,7 @@ namespace Impacker.Core
 
 		private Int32 GetAspectRatioCorrectedValue(int value, double aspectRatio)
 		{
-			return (Int32) Math.Round(value * aspectRatio);
+			return (Int32)Math.Round(value * aspectRatio);
 		}
 
 	}

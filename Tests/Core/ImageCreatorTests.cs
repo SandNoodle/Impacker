@@ -156,10 +156,12 @@ namespace ImpackerTest.Core
 			var inputImage = ImageReader.Load(_testNonSquareImagePath);
 			var createdImages = _imageCreator.CreateImages(inputImage, imageSizes);
 
-			var actualSizes = createdImages.Select(data => 
-										new ImageDimensions {
+			var actualSizes = createdImages.Select(data =>
+										new ImageDimensions
+										{
 											Width = data.Image.Width,
-											Height = data.Image.Height})
+											Height = data.Image.Height
+										})
 										.ToArray();
 
 			var expectedSizes = new ImageDimensions[] { new ImageDimensions {Width = 256, Height = 512},
@@ -192,10 +194,12 @@ namespace ImpackerTest.Core
 			var inputImage = ImageReader.Load(_testNonSquareImagePath);
 			var createdImages = _imageCreator.CreateImages(inputImage, imageSizes);
 
-			var actualSizes = createdImages.Select(data => 
-										new ImageDimensions {
+			var actualSizes = createdImages.Select(data =>
+										new ImageDimensions
+										{
 											Width = data.Image.Width,
-											Height = data.Image.Height})
+											Height = data.Image.Height
+										})
 										.ToArray();
 
 			var expectedSizes = new ImageDimensions[] { new ImageDimensions {Width = 128, Height = 256},
