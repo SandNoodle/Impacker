@@ -11,13 +11,22 @@ namespace ImpackerTest.Core
 	public class ImageCreatorTests : IDisposable
 	{
 
+		private CommandLineOptions _defaultCommandLineOptions;
 		private ImageCreator _imageCreator;
 
 		private readonly string _testImagePath = "../../../../Resources/TestTexture_Diffuse.jpg";
 
 		public ImageCreatorTests()
 		{
-			_imageCreator = new ImageCreator();
+			_defaultCommandLineOptions = new CommandLineOptions();
+			_defaultCommandLineOptions.FileType = "png";
+			_defaultCommandLineOptions.FilterType = "nearest";
+			_defaultCommandLineOptions.ScaleAxis = "width";
+			_defaultCommandLineOptions.InputDirectory = ".";
+			_defaultCommandLineOptions.OutputDirectory = "./out";
+			_defaultCommandLineOptions.ImageSizes = new int[]{ 128, 64, 48, 32, 16 };
+
+			_imageCreator = new ImageCreator(_defaultCommandLineOptions);
 		}
 
 		public void Dispose()
@@ -29,7 +38,7 @@ namespace ImpackerTest.Core
 		public void CreateImage_Should_Create_Image_Of_Incorrect_Size()
 		{
 			var inputImage = Image.Load(_testImagePath);
-			var createdImage = _imageCreator.CreateImage(inputImage, 48, "nearest");
+			var createdImage = _imageCreator.CreateImage(inputImage, 48);
 
 			var actualSize = createdImage.Width;
 			var expectedSize = 32;
@@ -41,7 +50,7 @@ namespace ImpackerTest.Core
 		public void CreateImage_Should_Create_Image_Of_Correct_Size()
 		{
 			var inputImage = Image.Load(_testImagePath);
-			var createdImage = _imageCreator.CreateImage(inputImage, 48, "nearest");
+			var createdImage = _imageCreator.CreateImage(inputImage, 48);
 
 			var actualSize = createdImage.Width;
 			var expectedSize = 48;
@@ -55,7 +64,7 @@ namespace ImpackerTest.Core
 		{
 			var imageSizes = new int[] { 1, 1, 1, 1, 1, 1 };
 			var inputImage = ImageReader.Load(_testImagePath);
-			var createdImages = _imageCreator.CreateImages(inputImage, "nearest", imageSizes);
+			var createdImages = _imageCreator.CreateImages(inputImage, imageSizes);
 
 			var actualAmount = createdImages.Count;
 			var expectedAmount = imageSizes.Length + 1;
@@ -69,7 +78,7 @@ namespace ImpackerTest.Core
 			var imageSizes = new int[] { 1, 1, 1, 1, 1, 1 };
 
 			var inputImage = ImageReader.Load(_testImagePath);
-			var createdImages = _imageCreator.CreateImages(inputImage, "nearest", imageSizes);
+			var createdImages = _imageCreator.CreateImages(inputImage, imageSizes);
 
 			var actualAmount = createdImages.Count;
 			var expectedAmount = imageSizes.Length;
@@ -82,7 +91,7 @@ namespace ImpackerTest.Core
 		{
 			var imageSizes = new int[] { 128, 64, 48, 32, 16 };
 			var inputImage = ImageReader.Load(_testImagePath);
-			var createdImages = _imageCreator.CreateImages(inputImage, "nearest", imageSizes);
+			var createdImages = _imageCreator.CreateImages(inputImage, imageSizes);
 
 			var actualSizes = createdImages.Select(data => data.Image.Width).ToArray();
 			var expectedSizes = new int[] { 256, 128, 64, 48, 32 };
@@ -95,7 +104,7 @@ namespace ImpackerTest.Core
 		{
 			var imageSizes = new int[] { 128, 64, 48, 32, 16 };
 			var inputImage = ImageReader.Load(_testImagePath);
-			var createdImages = _imageCreator.CreateImages(inputImage, "nearest", imageSizes);
+			var createdImages = _imageCreator.CreateImages(inputImage, imageSizes);
 
 			var actualSizes = createdImages.Select(data => data.Image.Width).ToArray();
 			var expectedSizes = new int[] { 128, 64, 48, 32, 16 };

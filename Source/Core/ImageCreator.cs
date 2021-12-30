@@ -22,6 +22,10 @@ namespace Impacker.Core
 			}
 		);
 
+		private readonly CommandLineOptions _commandLineOptions;
+
+		public ImageCreator(CommandLineOptions options) => _commandLineOptions = options;
+
 		private List<ImageData> _storedImageData = new List<ImageData>();
 
 		/// <summary>
@@ -35,7 +39,7 @@ namespace Impacker.Core
 			GC.SuppressFinalize(this);
 		}
 
-		public List<ImageData> CreateImages(ImageData imageData, string filterType, IEnumerable<Int32> imageSizes)
+		public List<ImageData> CreateImages(ImageData imageData, IEnumerable<Int32> imageSizes)
 		{
 			var outputList = new List<ImageData>();
 			imageSizes.ToList()
@@ -44,16 +48,22 @@ namespace Impacker.Core
 					new ImageData
 					{
 						Name = imageData.Name,
-						Image = CreateImage(imageData.Image, outputSize, filterType)
+						Image = CreateImage(imageData.Image, outputSize)
 					}));
 			
 			return outputList;
 		}
 
-		public Image CreateImage(Image inputImage, int size, string filterType)
+		public Image CreateImage(Image inputImage, int size)
 		{
-			var resampler = GetResampler(filterType);
-			return inputImage.Clone(i => i.Resize(size, size, resampler));
+			var isHorizontalAxis = _commandLineOptions.ScaleAxis.Equals("width");
+			var resampler = GetResampler(_commandLineOptions.FilterType);
+			var aspectRatio = isHorizontalAxis ? (inputImage.Height / inputImage.Width) : (inputImage.Width / inputImage.Height); 
+			var aspectCorrectedSize = GetAspectRatioCorrectedValue(size, aspectRatio);
+			return inputImage.Clone(i => i
+							.Resize(isHorizontalAxis ? size : aspectCorrectedSize,
+								 	isHorizontalAxis ? aspectCorrectedSize : size,
+									resampler));
 		}
 
 		private static IResampler GetResampler(string resamplerType)
@@ -65,6 +75,11 @@ namespace Impacker.Core
 			}
 
 			return KnownResamplers.NearestNeighbor;
+		}
+
+		private Int32 GetAspectRatioCorrectedValue(int value, double aspectRatio)
+		{
+			return (Int32) Math.Round(value * aspectRatio);
 		}
 
 	}

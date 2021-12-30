@@ -21,4 +21,7 @@ public class CommandLineOptions
 	[Option('f', "filter", Required = false, Default = "nearest", HelpText = "Resizing filtering alghoritm. Possible values: [NEAREST], BILINEAR, BICUBIC.")]
 	public string FilterType { get; set; }
 
+	[Option('a', "axis", Required = false, Default = "width", HelpText = "Axis by which to scale the image. Possible values [width], height.")]
+	public string ScaleAxis { get; set; }
+
 }
