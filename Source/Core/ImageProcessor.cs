@@ -25,12 +25,11 @@ namespace Impacker.Core
 			var inputImageList = LoadImages(inputDirectory);
 
 			// Create ouput images
-			var filterType = _commandLineOptions.FilterType;
-			ImageCreator imageCreator = new ImageCreator();
+			ImageCreator imageCreator = new ImageCreator(_commandLineOptions);
 			for (int i = 0; i < inputImageList.Count; i++)
 			{
 				var imageData = inputImageList[i];
-				var outputImageList = imageCreator.CreateImages(imageData, filterType, imageSizes);
+				var outputImageList = imageCreator.CreateImages(imageData, imageSizes);
 
 				ImageWriter.Save(outputImageList, _commandLineOptions);
 			}

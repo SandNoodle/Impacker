@@ -33,6 +33,7 @@ namespace Impacker.Core
 			if(options == null) { throw new ArgumentNullException(); }
 			if(outputImages.Count == 0) { throw new ArgumentException("Provided ImageData List cannot be empty!"); }
 
+			var isHorizontalAxis = options.ScaleAxis == ScaleAxis.Width;
 			var baseOutputDirectory = options.OutputDirectory;
 			var fileType = options.FileType;
 			var encoder = GetEncoder(fileType);
@@ -40,7 +41,7 @@ namespace Impacker.Core
 			for(int i = 0; i < outputImages.Count; i++)
 			{
 				var currentImage = outputImages[i];
-				var currentSize = currentImage.Image.Width;
+				var currentSize = isHorizontalAxis ? currentImage.Image.Width : currentImage.Image.Height;
 				var baseName = currentImage.Name;
 				var outputName = ConstructImageName(baseName, fileType, currentSize);
 				var outputDirectory = ConstructOutputDirectory(baseOutputDirectory, currentSize);

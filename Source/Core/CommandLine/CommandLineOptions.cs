@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 using CommandLine;
 
+using Impacker.Core; 
+
 public class CommandLineOptions
 {
 
@@ -20,5 +22,8 @@ public class CommandLineOptions
 
 	[Option('f', "filter", Required = false, Default = "nearest", HelpText = "Resizing filtering alghoritm. Possible values: [NEAREST], BILINEAR, BICUBIC.")]
 	public string FilterType { get; set; }
+
+	[Option('a', "axis", Required = false, Default = ScaleAxis.Width, HelpText = "Axis by which to scale the image. Possible values [width], height.")]
+	public ScaleAxis ScaleAxis { get; set; }
 
 }
