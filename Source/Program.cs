@@ -13,7 +13,12 @@ namespace Impacker
 
 		static void Main(string[] args)
 		{
-			var parser = new CommandLine.Parser(with => with.HelpWriter = null);
+			var parser = new CommandLine.Parser(with => 
+			{
+				with.HelpWriter = null;
+				with.CaseInsensitiveEnumValues = true;
+
+			});
 			var parseResult = parser.ParseArguments<CommandLineOptions>(args);
 			parseResult
 			.WithParsed<CommandLineOptions>(options => {

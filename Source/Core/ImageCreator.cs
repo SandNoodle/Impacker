@@ -56,7 +56,7 @@ namespace Impacker.Core
 
 		public Image CreateImage(Image inputImage, int size)
 		{
-			var isHorizontalAxis = _commandLineOptions.ScaleAxis.Equals("width");
+			var isHorizontalAxis = _commandLineOptions.ScaleAxis == ScaleAxis.Width;
 			var resampler = GetResampler(_commandLineOptions.FilterType);
 			var aspectRatio = isHorizontalAxis ? (inputImage.Height / inputImage.Width) : (inputImage.Width / inputImage.Height); 
 			var aspectCorrectedSize = GetAspectRatioCorrectedValue(size, aspectRatio);
