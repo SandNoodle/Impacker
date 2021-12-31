@@ -12,13 +12,13 @@ namespace Impacker.Core
 	public class ImageCreator : IDisposable
 	{
 
-		public static readonly ReadOnlyDictionary<string, IResampler> _AvailableResamplers = new ReadOnlyDictionary<string, IResampler>
+		public static readonly ReadOnlyDictionary<FilterType, IResampler> _AvailableResamplers = new ReadOnlyDictionary<FilterType, IResampler>
 		(
-			new Dictionary<string, IResampler>()
+			new Dictionary<FilterType, IResampler>()
 			{
-				{ "nearest", KnownResamplers.NearestNeighbor },
-				{ "bilinear", KnownResamplers.Triangle },
-				{ "bicubic", KnownResamplers.Bicubic },
+				{ FilterType.Nearest, KnownResamplers.NearestNeighbor },
+				{ FilterType.Bilinear, KnownResamplers.Triangle },
+				{ FilterType.Bicubic, KnownResamplers.Bicubic },
 			}
 		);
 
@@ -66,10 +66,10 @@ namespace Impacker.Core
 									resampler));
 		}
 
-		private static IResampler GetResampler(string resamplerType)
+		private static IResampler GetResampler(FilterType resamplerType)
 		{
 			IResampler resampler;
-			if (ImageCreator._AvailableResamplers.TryGetValue(resamplerType.ToLowerInvariant(), out resampler))
+			if (ImageCreator._AvailableResamplers.TryGetValue(resamplerType, out resampler))
 			{
 				return resampler;
 			}

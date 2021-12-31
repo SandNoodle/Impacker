@@ -16,14 +16,14 @@ namespace Impacker.Core
 	public class ImageWriter
 	{
 
-		private static ReadOnlyDictionary<string, IImageEncoder> _availableEncoders = new ReadOnlyDictionary<string, IImageEncoder>
+		private static ReadOnlyDictionary<FileType, IImageEncoder> _availableEncoders = new ReadOnlyDictionary<FileType, IImageEncoder>
 		(
-			new Dictionary<string, IImageEncoder>()
+			new Dictionary<FileType, IImageEncoder>()
 			{
-				{ "png", new PngEncoder() },
-				{ "jpg", new JpegEncoder() },
-				{ "tga", new TgaEncoder() },
-				{ "bmp", new BmpEncoder() },
+				{ FileType.Png, new PngEncoder() },
+				{ FileType.Jpg, new JpegEncoder() },
+				{ FileType.Tga, new TgaEncoder() },
+				{ FileType.Bmp, new BmpEncoder() },
 			}
 		);
 
@@ -51,9 +51,9 @@ namespace Impacker.Core
 			}
 		}
 
-		private static string ConstructImageName(string name, string extension, int size)
+		private static string ConstructImageName(string name, FileType extension, int size)
 		{
-			return $"T_{name}_{size}px.{extension}";
+			return $"T_{name}_{size}px.{extension.ToString().ToLowerInvariant()}";
 		}
 
 		private static string ConstructOutputDirectory(string baseOutputDirectory, int currentSize)
@@ -61,10 +61,10 @@ namespace Impacker.Core
 			return Path.Combine(baseOutputDirectory, currentSize.ToString());
 		}
 
-		private static IImageEncoder GetEncoder(string encoderType)
+		private static IImageEncoder GetEncoder(FileType encoderType)
 		{
 			IImageEncoder encoder;
-			if (_availableEncoders.TryGetValue(encoderType.ToLowerInvariant(), out encoder))
+			if (_availableEncoders.TryGetValue(encoderType, out encoder))
 			{
 				return encoder;
 			}
