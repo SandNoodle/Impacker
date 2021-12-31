@@ -28,8 +28,8 @@ namespace ImpackerTest.Core
 		public ImageCreatorTests()
 		{
 			_defaultCommandLineOptions = new CommandLineOptions();
-			_defaultCommandLineOptions.FileType = "png";
-			_defaultCommandLineOptions.FilterType = "nearest";
+			_defaultCommandLineOptions.FileType = FileType.Png;
+			_defaultCommandLineOptions.FilterType = FilterType.Nearest;
 			_defaultCommandLineOptions.ScaleAxis = ScaleAxis.Width;
 			_defaultCommandLineOptions.InputDirectory = ".";
 			_defaultCommandLineOptions.OutputDirectory = "./out";

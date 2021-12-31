@@ -18,10 +18,10 @@ public class CommandLineOptions
 	public string OutputDirectory { get; set; }
 
 	[Option('t', "type", Required = false, Default = "png", HelpText = "Output file type. Possible values: [PNG], TGA, JPG, BMP")]
-	public string FileType { get; set; }
+	public FileType FileType { get; set; }
 
-	[Option('f', "filter", Required = false, Default = "nearest", HelpText = "Resizing filtering alghoritm. Possible values: [NEAREST], BILINEAR, BICUBIC.")]
-	public string FilterType { get; set; }
+	[Option('f', "filter", Required = false, Default = FilterType.Nearest, HelpText = "Resizing filtering alghoritm. Possible values: [NEAREST], BILINEAR, BICUBIC.")]
+	public FilterType FilterType { get; set; }
 
 	[Option('a', "axis", Required = false, Default = ScaleAxis.Width, HelpText = "Axis by which to scale the image. Possible values [width], height.")]
 	public ScaleAxis ScaleAxis { get; set; }
